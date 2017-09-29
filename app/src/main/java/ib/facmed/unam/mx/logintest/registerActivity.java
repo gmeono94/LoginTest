@@ -12,10 +12,11 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class registerActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Realm realm;
+
     private EditText editTextUsuario;
     private EditText editTextNombre;
     private EditText editTextEmail;
@@ -26,10 +27,7 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
 
 
 
-    public registerActivity(Realm realm, DatabaseManager dm){
-        this.realm=realm;
-        this.dm=dm;
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +40,21 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
         editTextEdad=(EditText)findViewById(R.id.etEdad);
         buttonEnviar=(Button)findViewById(R.id.buttonEnviarDatos);
 
+        Realm.init(this);
+
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
+                .name("LogTest") //Nombre de la base de datos
+                .schemaVersion(1) //Numero de version de la base de datos
+                .deleteRealmIfMigrationNeeded()
+                .build();
+
+        Realm.setDefaultConfiguration(realmConfiguration);
+
+        dm = new DatabaseManager(Realm.getDefaultInstance());
+
         buttonEnviar.setOnClickListener(this);
+
+
 
 
 

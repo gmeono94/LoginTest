@@ -68,7 +68,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(this, "Usuario o contraseña incorrecta", Toast.LENGTH_SHORT).show();
                 }
                 else if(objUsr.getPassword().equals(password)){
-                    //Metodo que te lleva a la actividad welcome
+                    Intent intent = new Intent(this, welcomeActivity.class);
+                    intent.putExtra("usuario",user);
+                    startActivity(intent);
                 }
                 else{
                     Toast.makeText(this, "Usuario o contraseña incorrecta", Toast.LENGTH_SHORT).show();
