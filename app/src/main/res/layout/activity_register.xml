@@ -8,6 +8,15 @@
     tools:context="ib.facmed.unam.mx.logintest.registerActivity">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Formulario de registro"
+        android:layout_gravity="center"
+        android:textSize="20dp"
+        android:layout_marginTop="3dp"
+        />
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Nombre"

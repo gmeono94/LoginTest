@@ -1,5 +1,9 @@
 package ib.facmed.unam.mx.logintest;
 
+import android.support.annotation.BoolRes;
+import android.support.annotation.Nullable;
+import android.widget.Toast;
+
 import ib.facmed.unam.mx.logintest.Modelos.Usuario;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -17,18 +21,29 @@ public class DatabaseManager {
 
     }
 
-    public void createUser(int id, String nombre,String usuario, String email, int edad, String password){
+    public Boolean createUser(String nombre, String usuario, String email, int edad, String password){
+
         Usuario user = new Usuario();
-        user.setId(id);
+        user.setId(getNumberId());
         user.setNonbre(nombre);
         user.setEmail(email);
         user.setUsuario(usuario);
         user.setEdad(edad);
         user.setPassword(password);
 
+        //Inicia bloque de validaciones
+        if( getUserByUsername(usuario).isValid() || getUserByEmail(email).isValid()){
+
+            return false;
+        }
+
+
+
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(user);
         realm.commitTransaction();
+
+        return true;
 
     }
 
@@ -36,9 +51,17 @@ public class DatabaseManager {
         return realm.where(Usuario.class).equalTo("nombre",userName).findFirst();
     }
 
+    public Usuario getUserByEmail(String email){
+        return realm.where(Usuario.class).equalTo("email",email).findFirst();
+    }
+
     public RealmResults<Usuario> getAllUsers(){
         RealmResults<Usuario> listaUsers = realm.where(Usuario.class).findAll();
         return listaUsers;
 
+    }
+
+    public int getNumberId(){
+        return getAllUsers().size();
     }
 }
