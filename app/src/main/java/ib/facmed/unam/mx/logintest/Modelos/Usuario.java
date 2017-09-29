@@ -12,7 +12,7 @@ public class Usuario extends RealmObject {
 
     @PrimaryKey
     private int id;
-    private String nonbre;
+    private String nombre;
     private String usuario;
     private String email;
     private int edad;
@@ -29,11 +29,11 @@ public class Usuario extends RealmObject {
     }
 
     public String getNonbre() {
-        return nonbre;
+        return nombre;
     }
 
     public void setNonbre(String nonbre) {
-        this.nonbre = nonbre;
+        this.nombre = nonbre;
     }
 
     public String getUsuario() {
@@ -62,6 +62,18 @@ public class Usuario extends RealmObject {
 
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", usuario='" + usuario + '\'' +
+                ", email='" + email + '\'' +
+                ", edad=" + edad +
+                ", password='" + password + '\'' +
+                '}';
     }
 
     public void setPassword(String password) {

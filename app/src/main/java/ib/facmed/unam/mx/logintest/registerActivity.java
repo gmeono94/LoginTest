@@ -1,6 +1,7 @@
 package ib.facmed.unam.mx.logintest;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
+import ib.facmed.unam.mx.logintest.Modelos.Usuario;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -24,6 +26,7 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
     private EditText editTextPassword;
     private Button buttonEnviar;
     private DatabaseManager dm;
+    String usuario;
 
 
 
@@ -40,6 +43,22 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
         editTextEdad=(EditText)findViewById(R.id.etEdad);
         buttonEnviar=(Button)findViewById(R.id.buttonEnviarDatos);
 
+        Bundle extras = getIntent().getExtras();
+
+        if(extras.getBoolean("bandera")) {
+            usuario = extras.getString("usuario");
+            Usuario user= dm.getUserByUsername(usuario);
+            editTextUsuario.setText(user.getUsuario());
+            editTextNombre.setText(user.getNonbre());
+            editTextEmail.setText(user.getEmail());
+            editTextEdad.setText(""+user.getEdad());
+
+        }
+
+
+
+
+
         Realm.init(this);
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
@@ -53,12 +72,6 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
         dm = new DatabaseManager(Realm.getDefaultInstance());
 
         buttonEnviar.setOnClickListener(this);
-
-
-
-
-
-
 
 
     }
@@ -81,7 +94,7 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
         }
 
         else{
-            Toast.makeText(this, "Usuario o correo electronico ya existente...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Usuario o correo electronico ya existente... 1", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -106,3 +119,4 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
 
 
 }
+

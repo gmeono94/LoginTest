@@ -3,6 +3,7 @@ package ib.facmed.unam.mx.logintest;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,16 +39,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         Realm.setDefaultConfiguration(realmConfiguration);
 
-        dm = new DatabaseManager(Realm.getDefaultInstance());
+
 
 
         editTextUser=(EditText)findViewById(R.id.etUsuarioLogin);
         editTextPassword=(EditText)findViewById(R.id.etPasswordLogin);
-        buttonLogin=(Button)findViewById(R.id.buttonModificar);
+        buttonLogin=(Button)findViewById(R.id.butonLogin);
         buttonRegister=(Button)findViewById(R.id.buttonRegister);
 
         buttonLogin.setOnClickListener(this);
         buttonRegister.setOnClickListener(this);
+
+        dm = new DatabaseManager(Realm.getDefaultInstance());
 
 
 
@@ -63,17 +66,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String password=sha256(buttonRegister.getText().toString());
 
                 Usuario objUsr= dm.getUserByUsername(user);
+                Log.e("ERROR",objUsr.toString());
                 //Inician validaciones
-                if(!objUsr.isValid()){
-                    Toast.makeText(this, "Usuario o contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                if(objUsr==null){
+                    Toast.makeText(this, "Usuario incorrecto", Toast.LENGTH_SHORT).show();
                 }
                 else if(objUsr.getPassword().equals(password)){
                     Intent intent = new Intent(this, welcomeActivity.class);
                     intent.putExtra("usuario",user);
+                    intent.putExtra("nombre",objUsr.getNonbre());
                     startActivity(intent);
                 }
                 else{
-                    Toast.makeText(this, "Usuario o contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "contraseña incorrecta", Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -82,6 +87,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.buttonRegister:
                 Intent intent = new Intent(this, registerActivity.class);
+                intent.putExtra("bandera",false);
                 startActivity(intent);
                 break;
 

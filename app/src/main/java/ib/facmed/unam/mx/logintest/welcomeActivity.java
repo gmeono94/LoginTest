@@ -26,6 +26,11 @@ public class welcomeActivity extends AppCompatActivity implements View.OnClickLi
         textViewNombre.setText(nombre);
         buttonEditar.setOnClickListener(this);
 
+        Bundle extras = getIntent().getExtras();
+        nombre=extras.getString("nombre");
+        usuario=extras.getString("usuario");
+
+
     }
 
     @Override
@@ -34,6 +39,7 @@ public class welcomeActivity extends AppCompatActivity implements View.OnClickLi
 
         Intent intent = new Intent(this, registerActivity.class);
         intent.putExtra("usuario",usuario);
+        intent.putExtra("bandera",true);
         startActivity(intent);
 
     }

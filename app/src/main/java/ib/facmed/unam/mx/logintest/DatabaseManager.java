@@ -21,24 +21,22 @@ public class DatabaseManager {
 
     }
 
-    public Boolean createUser(String nombre, String usuario, String email, int edad, String password){
+    public Boolean createUser(String nom, String usu, String email, int edad, String password){
 
         Usuario user = new Usuario();
         user.setId(getNumberId());
-        user.setNonbre(nombre);
+        user.setNonbre(nom);
         user.setEmail(email);
-        user.setUsuario(usuario);
+        user.setUsuario(usu);
         user.setEdad(edad);
         user.setPassword(password);
 
         //Inicia bloque de validaciones
-        if( getUserByUsername(usuario).isValid() || getUserByEmail(email).isValid()){
+        if( getUserByUsername(usu)!=null || getUserByEmail(email)!=null){
 
             return false;
         }
-
-
-
+        
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(user);
         realm.commitTransaction();
@@ -48,7 +46,12 @@ public class DatabaseManager {
     }
 
     public Usuario getUserByUsername(String userName){
-        return realm.where(Usuario.class).equalTo("nombre",userName).findFirst();
+
+        Usuario user=realm.where(Usuario.class).equalTo("nombre",userName).findFirst();
+        if(user!=null)
+            return user;
+
+        return null;
     }
 
     public Usuario getUserByEmail(String email){
