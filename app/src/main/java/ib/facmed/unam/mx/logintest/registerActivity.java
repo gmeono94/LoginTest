@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,7 +27,7 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
     private EditText editTextPassword;
     private Button buttonEnviar;
     private DatabaseManager dm;
-    String usuario;
+    String userName;
 
 
 
@@ -42,16 +43,19 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
         editTextPassword= (EditText)findViewById(R.id.etPassword);
         editTextEdad=(EditText)findViewById(R.id.etEdad);
         buttonEnviar=(Button)findViewById(R.id.buttonEnviarDatos);
+        dm = new DatabaseManager(Realm.getDefaultInstance());
 
         Bundle extras = getIntent().getExtras();
 
         if(extras.getBoolean("bandera")) {
-            usuario = extras.getString("usuario");
-            Usuario user= dm.getUserByUsername(usuario);
-            editTextUsuario.setText(user.getUsuario());
-            editTextNombre.setText(user.getNonbre());
-            editTextEmail.setText(user.getEmail());
-            editTextEdad.setText(""+user.getEdad());
+            userName = extras.getString("usu");
+            Log.e("ErrorUsuario","nombre de usuario: "+userName);
+            Usuario us= dm.getUserByUsername(userName);
+
+            editTextUsuario.setText(us.getUsuario());
+            editTextNombre.setText(us.getNonbre());
+            editTextEmail.setText(us.getEmail());
+            editTextEdad.setText(""+us.getEdad());
 
         }
 

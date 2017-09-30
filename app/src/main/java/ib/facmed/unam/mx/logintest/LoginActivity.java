@@ -62,11 +62,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         switch (view.getId()){
             case R.id.butonLogin:
-                String user= buttonLogin.getText().toString();
-                String password=sha256(buttonRegister.getText().toString());
+                String user= editTextUser.getText().toString();
+                String password=sha256(editTextPassword.getText().toString());
 
                 Usuario objUsr= dm.getUserByUsername(user);
-                Log.e("ERROR",objUsr.toString());
+
                 //Inician validaciones
                 if(objUsr==null){
                     Toast.makeText(this, "Usuario incorrecto", Toast.LENGTH_SHORT).show();
@@ -78,7 +78,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     startActivity(intent);
                 }
                 else{
-                    Toast.makeText(this, "contraseña incorrecta", Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(this, "contraseña incorrecta:    u1: "+password+"VS   "+objUsr.getPassword(), Toast.LENGTH_SHORT).show();
                 }
 
 

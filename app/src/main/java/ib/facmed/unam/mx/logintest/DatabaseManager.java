@@ -2,6 +2,7 @@ package ib.facmed.unam.mx.logintest;
 
 import android.support.annotation.BoolRes;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.Toast;
 
 import ib.facmed.unam.mx.logintest.Modelos.Usuario;
@@ -48,10 +49,9 @@ public class DatabaseManager {
     public Usuario getUserByUsername(String userName){
 
         Usuario user=realm.where(Usuario.class).equalTo("nombre",userName).findFirst();
-        if(user!=null)
+        Log.e("UsDB","Usuario encontrado en db: "+user.getUsuario());
             return user;
 
-        return null;
     }
 
     public Usuario getUserByEmail(String email){
